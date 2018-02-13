@@ -1,0 +1,8 @@
+from sklearn import tree
+features = [[100,0],[50,1],[110,0],[40,1],[120,0],[45,1],[130,0],[56,0],[130,1]]
+label = [[0],[1],[0],[1],[0],[1],[0],[1],[0]]
+pred = [[40,1]]
+clf = tree.DecisionTreeClassifier()
+clf.fit(features,label)
+x=clf.predict(pred)
+print(x)
