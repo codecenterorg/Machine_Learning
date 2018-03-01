@@ -1,0 +1,25 @@
+import numpy as np
+from sklearn import neighbors,model_selection,svm
+import pandas as pd
+
+df = pd.read_csv('C:\\Users\\Udayan R Birajdar\\Desktop\\ML\\iris.txt')
+
+df['class']=df['class'].replace('Iris-setosa','0')
+df['class']=df['class'].replace('Iris-versicolor','1')
+df['class']=df['class'].replace('Iris-virginica','2')
+
+label = np.array(df['class'])
+features = np.array(df.drop('class',1))
+
+X_train,x_test,Y_train,y_test = model_selection.train_test_split(features,label,test_size=0.2)
+
+clf = neighbors.KNeighborsClassifier()
+clf.fit(X_train,Y_train)
+accuracy = clf.score(x_test,y_test)
+print("Acc = ",accuracy*100)
+
+
+prediction = [['4','0.2','1.8','0.2']]
+
+result = clf.predict(prediction)
+print("Result= ",result)
