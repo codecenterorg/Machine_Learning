@@ -1,0 +1,42 @@
+import pandas as pd
+pd.options.mode.chained_assignment = None
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+
+df = pd.read_csv("titanic_train.csv")
+
+features = df[['row_names','pclass','age','sex']]
+features.replace(['male'],[0],inplace=True)
+features.replace(['female'],[1],inplace=True)
+mean =int(features[['age']].mean())
+features['age'].fillna(mean,inplace=True)
+features['pclass'].replace('3rd',3,inplace=True)
+features['pclass'].replace('2nd',2,inplace=True)
+features['pclass'].replace('1st',1,inplace=True)
+
+label = df[['survived']]
+
+x_train,x_test,y_train,y_test = train_test_split(features,label,test_size=0.1)
+
+clf = RandomForestClassifier()
+clf.fit(x_train,y_train)
+
+Accuracy = clf.score(x_test,y_test)
+
+print(Accuracy)
+
+df2 = pd.read_csv("titanic_test.csv")
+pred_feat = df2[['row_names','pclass','age','sex']]
+
+pred_feat.replace(['male'],[0],inplace=True)
+pred_feat.replace(['female'],[1],inplace=True)
+mean2 =int(pred_feat[['age']].mean())
+pred_feat['age'].fillna(mean,inplace=True)
+pred_feat['pclass'].replace('3rd',3,inplace=True)
+pred_feat['pclass'].replace('2nd',2,inplace=True)
+pred_feat['pclass'].replace('1st',1,inplace=True)
+
+Answer = clf.predict(pred_feat.head(15))
+
+
+print(Answer)
